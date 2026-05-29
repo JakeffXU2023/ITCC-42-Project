@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PTA Cashiering System — Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <div class="brand-name">PTA Cashiering<br>System</div>
+        <div class="brand-year">SY 2024–2025</div>
+      </div>
+
+      <div class="nav-section-label">Main</div>
+      <a class="nav-item active" href="dashboard.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </a>
+      <a class="nav-item" href="students.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Student Records
+      </a>
+      <a class="nav-item" href="payments.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        New Payment
+      </a>
+      <a class="nav-item" href="reciepts.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Receipts Log
+      </a>
+
+      <div class="nav-section-label">Finance</div>
+      <a class="nav-item" href="reports.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Fee Categories
+      </a>
+      <a class="nav-item" href="settings.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Fund Usage
+      </a>
+
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-user">
+        <div class="user-avatar">AD</div>
+        <div>
+          <div class="user-name">Admin</div>
+          <div class="user-role">Cashier</div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main">
+      <div class="topbar">
+        <div class="topbar-left">
+          <span class="page-title">Dashboard</span>
+          <span class="page-badge">Overview</span>
+        </div>
+        <div class="topbar-right">
+          <a class="btn btn-sm" href="payments.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            New Payment
+          </a>
+          <a class="btn btn-sm" href="login.html" onclick="signOut()">Sign out</a>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-icon" style="background:var(--blue-50);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue-600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+            <div class="stat-label">Total collected</div>
+            <div id="stat-total" class="stat-value">₱0</div>
+            <div id="stat-sub-total" class="stat-sub up">Loading...</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:#EAF3DE;"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green-600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <div class="stat-label">Students enrolled</div>
+            <div id="stat-students" class="stat-value">0</div>
+            <div class="stat-sub">Across 72 sections</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:var(--amber-50);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--amber-600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div class="stat-label">Fully paid</div>
+            <div id="stat-paid" class="stat-value">0%</div>
+            <div id="stat-sub-paid" class="stat-sub">students</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:var(--red-50);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--red-600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+            <div class="stat-label">Balance due</div>
+            <div id="stat-balance" class="stat-value">₱0</div>
+            <div class="stat-sub">students pending</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Collection by grade level</span></div>
+            <div class="card-body">
+              <div id="grade-bars" class="bar-chart"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">Fee category totals</span></div>
+            <div class="card-body">
+              <div id="fee-summary-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Recent transactions</span>
+            <a class="btn btn-sm" href="reciepts.html">View all</a>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Receipt #</th><th>Student</th><th>Grade / Section</th><th>Amount</th><th>Date</th><th>Status</th></tr></thead>
+              <tbody id="recent-transactions">
+                <tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:24px;">No transactions yet.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="toast"></div>
+  <script src="auth.js"></script>
+  <script src="data.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>

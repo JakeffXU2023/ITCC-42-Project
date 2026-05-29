@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PTA Cashiering System — Student Records</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <div class="brand-name">PTA Cashiering<br>System</div>
+        <div class="brand-year">SY 2024–2025</div>
+      </div>
+
+      <div class="nav-section-label">Main</div>
+      <a class="nav-item" href="dashboard.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </a>
+      <a class="nav-item active" href="students.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Student Records
+      </a>
+      <a class="nav-item" href="payments.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        New Payment
+      </a>
+      <a class="nav-item" href="reciepts.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Receipts Log
+      </a>
+
+      <div class="nav-section-label">Finance</div>
+      <a class="nav-item" href="reports.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Fee Categories
+      </a>
+      <a class="nav-item" href="settings.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Fund Usage
+      </a>
+
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-user">
+        <div class="user-avatar">AD</div>
+        <div>
+          <div class="user-name">Admin</div>
+          <div class="user-role">Cashier</div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main">
+      <div class="topbar">
+        <div class="topbar-left">
+          <span class="page-title">Student Records</span>
+          <span id="page-badge" class="page-badge">Grade 7 – Sec 1</span>
+        </div>
+        <div class="topbar-right">
+          <a class="btn btn-sm" href="payments.html">New Payment</a>
+          <a class="btn btn-sm" href="login.html" onclick="signOut()">Sign out</a>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="card" style="margin-bottom:0;">
+          <div id="grade-tabs" class="tab-nav"></div>
+          <div class="card-body">
+            <div id="section-pills-container" class="section-pills" style="margin-bottom:14px;"></div>
+            <div class="filter-row">
+              <input id="student-search" class="search-input" type="text" placeholder="Search student name...">
+              <select id="status-filter" class="form-control" style="width:auto;">
+                <option value="">All statuses</option>
+                <option value="paid">Fully paid</option>
+                <option value="partial">Partial</option>
+                <option value="unpaid">Unpaid</option>
+              </select>
+              <button id="add-student-btn" class="btn btn-sm" type="button">Add Student</button>
+
+              <!-- ✦ NEW: Import from Excel button -->
+              <button id="import-excel-btn" class="btn btn-sm import-excel-btn" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round"
+                     width="14" height="14" style="vertical-align:-2px;margin-right:5px;" aria-hidden="true">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="17 8 12 3 7 8"/>
+                  <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+                Import from Excel
+              </button>
+              <button id="export-excel-btn" class="btn btn-sm export-excel-btn" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round"
+                     width="14" height="14" style="vertical-align:-2px;margin-right:5px;" aria-hidden="true">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 11 12 16 17 11"/>
+                  <line x1="12" y1="4" x2="12" y2="16"/>
+                </svg>
+                Export to CSV
+              </button>
+            </div>
+
+            <div class="table-wrap">
+              <table style="table-layout:fixed;">
+                <colgroup>
+                  <col style="width:200px">
+                  <col style="width:90px">
+                  <col style="width:90px">
+                  <col style="width:80px">
+                  <col style="width:70px">
+                  <col style="width:75px">
+                  <col style="width:90px">
+                  <col style="width:80px">
+                  <col style="width:100px">
+                </colgroup>
+                <thead><tr>
+                  <th>Student name</th>
+                  <th>SPTA</th>
+                  <th>School paper</th>
+                  <th>School org</th>
+                  <th>Sports</th>
+                  <th>Insurance</th>
+                  <th>Graduation</th>
+                  <th>Total paid</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr></thead>
+                <tbody id="students-tbody">
+                  <tr><td colspan="10" style="text-align:center;color:var(--text-muted);padding:24px;">Loading student data...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <div id="add-student-modal-overlay" class="modal-overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="add-student-title">
+      <div class="modal-header">
+        <h2 id="add-student-title" class="modal-title">Add New Student</h2>
+        <button type="button" class="modal-close" id="add-student-close" aria-label="Close">×</button>
+      </div>
+      <form id="add-student-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="add-student-last">Last name</label>
+            <input id="add-student-last" class="form-control" type="text" placeholder="Dela Cruz" autocomplete="family-name">
+          </div>
+          <div class="form-group">
+            <label for="add-student-first">First name</label>
+            <input id="add-student-first" class="form-control" type="text" placeholder="Juan" autocomplete="given-name">
+          </div>
+          <div class="form-group">
+            <label for="add-student-grade">Grade</label>
+            <select id="add-student-grade" class="form-control">
+              <option value="7">Grade 7</option>
+              <option value="8">Grade 8</option>
+              <option value="9">Grade 9</option>
+              <option value="10">Grade 10</option>
+              <option value="11">Grade 11</option>
+              <option value="12">Grade 12</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="add-student-section">Section</label>
+            <select id="add-student-section" class="form-control"></select>
+          </div>
+          <div class="form-group" style="display:flex;align-items:center;gap:10px;margin-top:8px;">
+            <input id="add-student-sibling" type="checkbox" style="width:16px;height:16px;" />
+            <label for="add-student-sibling" style="margin:0;">Has sibling</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm" id="add-student-cancel">Cancel</button>
+          <button type="submit" class="btn btn-sm btn-primary">Create student</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- existing scripts -->
+  <script src="auth.js"></script>
+  <script src="data.js"></script>
+  <script src="api.js"></script>
+  <script src="students.js"></script>
+  <script src="students-page.js"></script>
+
+  <!-- ✦ NEW: Excel import module -->
+  <script src="import-students.js"></script>
+
+  <script>
+    /* Wire up the Import button */
+    document.getElementById('import-excel-btn').addEventListener('click', function () {
+      window.openImportModal();
+    });
+
+    /**
+     * Called by import-students.js after the user confirms the import.
+     * Receives an array of student objects:
+     *   { name, spta, paper, org, sports, insurance, graduation }
+     */
+    window.addImportedStudents = function (students) {
+      document.dispatchEvent(new CustomEvent('students-imported', { detail: students }));
+    };
+
+    function showImportToast(added, skipped) {
+      const toast = document.getElementById('toast');
+      if (!toast) return;
+      toast.textContent = added + ' student' + (added !== 1 ? 's' : '') + ' imported successfully' +
+        (skipped ? ' · ' + skipped + ' skipped' : '') + '.';
+      toast.classList.add('show');
+      setTimeout(function () { toast.classList.remove('show'); }, 4000);
+    }
+  </script>
+
+  <!-- ✦ Minimal extra style for the Import button -->
+  <style>
+    .import-excel-btn {
+      background: #16a34a !important;
+      color: #fff !important;
+      border-color: #16a34a !important;
+    }
+    .import-excel-btn:hover { background: #15803d !important; border-color: #15803d !important; }
+    .export-excel-btn {
+      background: #2563eb !important;
+      color: #fff !important;
+      border-color: #2563eb !important;
+    }
+    .export-excel-btn:hover { background: #1d4ed8 !important; border-color: #1d4ed8 !important; }
+  </style>
+</body>
+</html>
