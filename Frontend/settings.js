@@ -49,10 +49,24 @@ function addDisbursement() {
   toast('Disbursement recorded.');
 }
 
-function initSettingsPage() {
+async function initSettingsPage() {
   if (window.location.pathname.split('/').pop() !== 'settings.html') return;
-  document.getElementById('add-disbursement-btn')?.addEventListener('click', addDisbursement);
-  renderFundsPage();
+  try {
+    if (typeof ensureDBReady === 'function') {
+      await ensureDBReady();
+    } else if (typeof initializeDB === 'function') {
+      await initializeDB();
+    }
+    if (DB === null) {
+      throw new Error('Backend not running');
+    }
+    document.getElementById('add-disbursement-btn')?.addEventListener('click', addDisbursement);
+    renderFundsPage();
+  } catch (err) {
+    console.error('Settings page error:', err);
+    const mainContent = document.querySelector('main') || document.body;
+    mainContent.innerHTML = '<div style="padding:40px;text-align:center;color:var(--red-600);font-weight:600;font-size:18px;">Error: Backend not running</div>';
+  }
 }
 
-document.addEventListener('DOMContentLoaded', initSettingsPage);
+document.addEventListener('DOMContentLoaded', () => initSettingsPage());

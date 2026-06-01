@@ -11,12 +11,9 @@
     <aside class="sidebar">
       <div class="sidebar-brand">
         <div class="brand-logo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
-          </svg>
+          <img src="SPTA_Logo.png" alt="PTA Cashiering System logo">
         </div>
-        <div class="brand-name">PTA Cashiering<br>System</div>
-        <div class="brand-year">SY 2024–2025</div>
+        <div class="brand-name">SPTA Cashiering<br>System</div>
       </div>
 
       <div class="nav-section-label">Main</div>
@@ -28,20 +25,12 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         Student Records
       </a>
-      <a class="nav-item" href="payments.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-        New Payment
-      </a>
       <a class="nav-item active" href="reciepts.html">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
         Receipts Log
       </a>
 
       <div class="nav-section-label">Finance</div>
-      <a class="nav-item" href="reports.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-        Fee Categories
-      </a>
       <a class="nav-item" href="settings.html">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
         Fund Usage
@@ -64,7 +53,7 @@
           <span class="page-badge">Transaction Log</span>
         </div>
         <div class="topbar-right">
-          <a class="btn btn-sm" href="payments.html">New Payment</a>
+          <a class="btn btn-sm" href="students.html">Student Records</a>
           <a class="btn btn-sm" href="login.html" onclick="signOut()">Sign out</a>
         </div>
       </div>
@@ -73,16 +62,15 @@
         <div class="card">
           <div class="card-header">
             <span class="card-title">All receipts</span>
-            <div style="display:flex;gap:8px;align-items:center;">
+            <div style="display:flex;gap:8px;">
               <input id="receipts-search" class="search-input" type="text" placeholder="Search..." style="width:200px;">
-              <button id="print-all-receipts" class="btn btn-sm" type="button">Print all</button>
             </div>
           </div>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>Student name</th><th>SPTA</th><th>School paper</th><th>School org</th><th>Sports</th><th>Insurance</th><th>Graduation</th><th>Total paid</th><th>Status</th></tr></thead>
+              <thead><tr><th>Receipt #</th><th>Student</th><th>Grade / Section</th><th>Fees paid</th><th>Amount</th><th>Date & time</th><th>Actions</th></tr></thead>
               <tbody id="receipts-tbody">
-                <tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:24px;">No receipts yet.</td></tr>
+                <tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:24px;">No receipts yet.</td></tr>
               </tbody>
             </table>
           </div>
@@ -91,9 +79,9 @@
     </div>
   </div>
   <div id="toast"></div>
+  <script src="api.js"></script>
   <script src="auth.js"></script>
   <script src="data.js"></script>
-  <script src="api.js"></script>
   <script src="receipts.js"></script>
 </body>
 </html>

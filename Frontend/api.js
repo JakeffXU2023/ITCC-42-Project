@@ -45,6 +45,12 @@ async function updateStudent(studentId, studentData) {
   });
 }
 
+async function deleteStudent(studentId) {
+  return apiFetch(`/students/${studentId}`, {
+    method: 'DELETE',
+  });
+}
+
 async function fetchReceipts() {
   return apiFetch('/receipts');
 }
@@ -56,7 +62,7 @@ async function createReceipt(receiptData) {
   });
 }
 
-async function deleteReceipt(receiptId) {
+async function deleteReceiptApi(receiptId) {
   return apiFetch(`/receipts/${receiptId}`, {
     method: 'DELETE',
   });

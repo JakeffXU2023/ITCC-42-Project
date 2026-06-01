@@ -11,12 +11,9 @@
     <aside class="sidebar">
       <div class="sidebar-brand">
         <div class="brand-logo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
-          </svg>
+          <img src="SPTA_Logo.png" alt="PTA Cashiering System logo">
         </div>
-        <div class="brand-name">PTA Cashiering<br>System</div>
-        <div class="brand-year">SY 2024–2025</div>
+        <div class="brand-name">SPTA Cashiering<br>System</div>
       </div>
 
       <div class="nav-section-label">Main</div>
@@ -28,20 +25,12 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         Student Records
       </a>
-      <a class="nav-item" href="payments.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-        New Payment
-      </a>
       <a class="nav-item" href="reciepts.html">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
         Receipts Log
       </a>
 
       <div class="nav-section-label">Finance</div>
-      <a class="nav-item" href="reports.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-        Fee Categories
-      </a>
       <a class="nav-item" href="settings.html">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
         Fund Usage
@@ -64,76 +53,60 @@
           <span id="page-badge" class="page-badge">Grade 7 – Sec 1</span>
         </div>
         <div class="topbar-right">
-          <a class="btn btn-sm" href="payments.html">New Payment</a>
+          <a class="btn btn-sm" href="reciepts.html">Receipts Log</a>
           <a class="btn btn-sm" href="login.html" onclick="signOut()">Sign out</a>
         </div>
       </div>
 
       <div class="content">
-        <div class="card" style="margin-bottom:0;">
+        <div class="card sheet-card">
           <div id="grade-tabs" class="tab-nav"></div>
           <div class="card-body">
-            <div id="section-pills-container" class="section-pills" style="margin-bottom:14px;"></div>
+            <div class="section-toolbar">
+              <div id="section-pills-container" class="section-pills"></div>
+              <div class="section-toolbar-actions">
+                <button id="rename-section-btn" class="btn btn-xs" type="button" title="Rename the selected section">Rename section</button>
+                <button id="add-section-btn" class="btn btn-xs" type="button" title="Add section to this grade">Add Section</button>
+                <button id="remove-section-btn" class="btn btn-xs" type="button" title="Remove a section or all extra sections">Remove Section</button>
+              </div>
+            </div>
+
+            <p class="sheet-hint">Each section has <strong>40 ready rows</strong>. <strong>Clear all</strong> clears fees only; <strong>New school year</strong> deletes saved names and payments (per section, grade, or all). <strong>Sibling</strong> exempts SPTA &amp; School Paper.</p>
+
             <div class="filter-row">
-              <input id="student-search" class="search-input" type="text" placeholder="Search student name...">
+              <input id="student-search" class="search-input" type="text" placeholder="Search student or parent name...">
               <select id="status-filter" class="form-control" style="width:auto;">
                 <option value="">All statuses</option>
                 <option value="paid">Fully paid</option>
                 <option value="partial">Partial</option>
                 <option value="unpaid">Unpaid</option>
               </select>
-              <button id="add-student-btn" class="btn btn-sm" type="button">Add Student</button>
-
-              <!-- ✦ NEW: Import from Excel button -->
-              <button id="import-excel-btn" class="btn btn-sm import-excel-btn" type="button">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                     stroke-linecap="round" stroke-linejoin="round"
-                     width="14" height="14" style="vertical-align:-2px;margin-right:5px;" aria-hidden="true">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                  <polyline points="17 8 12 3 7 8"/>
-                  <line x1="12" y1="3" x2="12" y2="15"/>
-                </svg>
-                Import from Excel
-              </button>
-              <button id="export-excel-btn" class="btn btn-sm export-excel-btn" type="button">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                     stroke-linecap="round" stroke-linejoin="round"
-                     width="14" height="14" style="vertical-align:-2px;margin-right:5px;" aria-hidden="true">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                  <polyline points="7 11 12 16 17 11"/>
-                  <line x1="12" y1="4" x2="12" y2="16"/>
-                </svg>
-                Export to CSV
-              </button>
+              <button id="add-student-btn" class="btn btn-sm" type="button">Add row</button>
+              <button id="add-fee-column-btn" class="btn btn-sm" type="button">Add fee column</button>
+              <button id="clear-all-fees-btn" class="btn btn-sm" type="button" title="Clear all fee amounts in this section">Clear all</button>
+              <button id="school-year-reset-btn" class="btn btn-sm btn-danger-outline" type="button" title="Delete saved names and payments for a new school year">New school year</button>
+              <button id="import-excel-btn" class="btn btn-sm import-excel-btn" type="button">Import Excel</button>
             </div>
 
-            <div class="table-wrap">
-              <table style="table-layout:fixed;">
-                <colgroup>
-                  <col style="width:200px">
-                  <col style="width:90px">
-                  <col style="width:90px">
-                  <col style="width:80px">
-                  <col style="width:70px">
-                  <col style="width:75px">
-                  <col style="width:90px">
-                  <col style="width:80px">
-                  <col style="width:100px">
-                </colgroup>
-                <thead><tr>
-                  <th>Student name</th>
-                  <th>SPTA</th>
-                  <th>School paper</th>
-                  <th>School org</th>
-                  <th>Sports</th>
-                  <th>Insurance</th>
-                  <th>Graduation</th>
-                  <th>Total paid</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr></thead>
+            <div class="table-wrap sheet-wrap">
+              <table id="students-sheet" class="sheet-table">
+                <thead id="students-thead">
+                  <tr>
+                    <th class="sheet-th sheet-th-fixed">#</th>
+                    <th class="sheet-th sheet-th-parent">Parents</th>
+                    <th class="sheet-th sheet-th-student">Name of Student</th>
+                    <th class="sheet-th sheet-th-fee">SPTA Membership</th>
+                    <th class="sheet-th sheet-th-fee">School Paper</th>
+                    <th class="sheet-th sheet-th-fee">School Organization</th>
+                    <th class="sheet-th sheet-th-fee">Sports</th>
+                    <th class="sheet-th sheet-th-fee">Insurance</th>
+                    <th class="sheet-th sheet-th-total">Total</th>
+                    <th class="sheet-th sheet-th-status">Payment Status</th>
+                    <th class="sheet-th sheet-th-actions">Actions</th>
+                  </tr>
+                </thead>
                 <tbody id="students-tbody">
-                  <tr><td colspan="10" style="text-align:center;color:var(--text-muted);padding:24px;">Loading student data...</td></tr>
+                  <tr><td colspan="12" class="sheet-empty">Loading spreadsheet...</td></tr>
                 </tbody>
               </table>
             </div>
@@ -143,101 +116,204 @@
     </div>
   </div>
 
-  <div id="toast"></div>
-
-  <div id="add-student-modal-overlay" class="modal-overlay" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="add-student-title">
+  <!-- Payment modal -->
+  <div id="payment-modal" class="modal-overlay">
+    <div class="modal payment-modal" role="dialog" aria-labelledby="payment-modal-title">
       <div class="modal-header">
-        <h2 id="add-student-title" class="modal-title">Add New Student</h2>
-        <button type="button" class="modal-close" id="add-student-close" aria-label="Close">×</button>
+        <span class="modal-title" id="payment-modal-title">Payment receipt</span>
+        <button type="button" class="modal-close" data-close-modal="payment-modal" aria-label="Close">×</button>
       </div>
-      <form id="add-student-form">
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="add-student-last">Last name</label>
-            <input id="add-student-last" class="form-control" type="text" placeholder="Dela Cruz" autocomplete="family-name">
-          </div>
-          <div class="form-group">
-            <label for="add-student-first">First name</label>
-            <input id="add-student-first" class="form-control" type="text" placeholder="Juan" autocomplete="given-name">
-          </div>
-          <div class="form-group">
-            <label for="add-student-grade">Grade</label>
-            <select id="add-student-grade" class="form-control">
-              <option value="7">Grade 7</option>
-              <option value="8">Grade 8</option>
-              <option value="9">Grade 9</option>
-              <option value="10">Grade 10</option>
-              <option value="11">Grade 11</option>
-              <option value="12">Grade 12</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="add-student-section">Section</label>
-            <select id="add-student-section" class="form-control"></select>
-          </div>
-          <div class="form-group" style="display:flex;align-items:center;gap:10px;margin-top:8px;">
-            <input id="add-student-sibling" type="checkbox" style="width:16px;height:16px;" />
-            <label for="add-student-sibling" style="margin:0;">Has sibling</label>
-          </div>
+      <div class="modal-body payment-modal-body">
+        <p class="sheet-hint payment-modal-hint">Saved automatically to <strong>Receipts Log</strong>. Paid amounts are listed below; categories still at <strong>0</strong> appear as <strong>Unpaid</strong> on partial payments.</p>
+        <div class="payment-modal-layout">
+          <section class="payment-panel payment-panel-details">
+            <div class="pay-student-info">
+              <div class="pay-info-row"><span class="pay-info-label">Student</span> <strong id="pay-info-name"></strong></div>
+              <div class="pay-info-row"><span class="pay-info-label">Class</span> <span id="pay-info-meta"></span></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Fees paid</label>
+              <div id="pay-entered-lines" class="pay-entered-lines"></div>
+            </div>
+            <div class="pay-total-row">
+              <span>Total amount</span>
+              <span id="pay-total">₱0.00</span>
+            </div>
+          </section>
+          <section class="payment-panel payment-panel-receipt">
+            <div id="receipt-card">
+              <div class="receipt-paper payment-receipt-paper">
+                <div class="receipt-logo">
+                  <div class="receipt-logo-icon">
+                    <img src="SPTA_Logo.png" alt="SPTA logo">
+                  </div>
+                  <div class="receipt-school">SPTA Cashiering System</div>
+                  <div class="receipt-sub">Official Receipt</div>
+                </div>
+                <div class="receipt-meta">
+                  <span>OR No: <strong id="receipt-preview-number">#1001</strong></span>
+                  <span id="receipt-preview-date"></span>
+                </div>
+                <div id="receipt-preview-student" class="receipt-student"></div>
+                <div id="receipt-preview-grade" class="receipt-grade"></div>
+                <div id="receipt-preview-items" class="receipt-preview-items"></div>
+                <div class="receipt-total-line"><span>Total paid</span><span id="receipt-preview-total"></span></div>
+              </div>
+            </div>
+          </section>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-sm" id="add-student-cancel">Cancel</button>
-          <button type="submit" class="btn btn-sm btn-primary">Create student</button>
-        </div>
-      </form>
+      </div>
+      <div class="modal-footer payment-modal-footer">
+        <button type="button" class="btn btn-sm" data-close-modal="payment-modal">Close</button>
+        <button id="print-receipt-button" class="btn btn-sm btn-primary" type="button">Print receipt</button>
+      </div>
     </div>
   </div>
 
-  <!-- existing scripts -->
+  <div id="toast"></div>
+
+  <!-- Add student row -->
+  <div id="add-student-modal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <span class="modal-title">Add student</span>
+        <button type="button" class="modal-close" data-close-modal="add-student-modal" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="new-student-parent">Parents</label>
+          <input id="new-student-parent" class="form-control sheet-input-parent" type="text" autocomplete="off" placeholder="Enter parent name">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="new-student-name">Name of Student</label>
+          <input id="new-student-name" class="form-control sheet-input-student" type="text" placeholder="LAST NAME, FIRST NAME" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label class="sheet-sibling-check" style="display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:500;">
+            <input id="new-student-sibling" type="checkbox">
+            <span>Sibling (exempt from SPTA &amp; School Paper)</span>
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm" data-close-modal="add-student-modal">Cancel</button>
+        <button type="button" class="btn btn-sm btn-primary" id="save-student-btn">Add to spreadsheet</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add fee column -->
+  <div id="add-column-modal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <span class="modal-title">Add fee column</span>
+        <button type="button" class="modal-close" data-close-modal="add-column-modal" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <p class="sheet-hint" style="margin-bottom:12px;">Adds a new fee column for <strong id="add-column-grade-label">Grade 7</strong> on this spreadsheet.</p>
+        <div class="form-group">
+          <label class="form-label" for="new-column-label">Fee category name</label>
+          <input id="new-column-label" class="form-control" type="text" placeholder="e.g. Field Trip" autocomplete="off">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm" data-close-modal="add-column-modal">Cancel</button>
+        <button type="button" class="btn btn-sm btn-primary" id="save-column-btn">Add column</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rename section -->
+  <div id="rename-section-modal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <span class="modal-title">Rename section</span>
+        <button type="button" class="modal-close" data-close-modal="rename-section-modal" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <p class="sheet-hint" style="margin-bottom:12px;">Custom name for <strong id="rename-section-grade-label">Grade 7</strong>, section <strong id="rename-section-num-label">1</strong>. Leave blank to reset to Sec 1.</p>
+        <div class="form-group">
+          <label class="form-label" for="rename-section-input">Section name</label>
+          <input id="rename-section-input" class="form-control" type="text" placeholder="e.g. Maggie, Hope, Section A" autocomplete="off">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm" data-close-modal="rename-section-modal">Cancel</button>
+        <button type="button" class="btn btn-sm btn-primary" id="save-section-name-btn">Save name</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- New school year reset -->
+  <div id="school-year-reset-modal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <span class="modal-title">New school year reset</span>
+        <button type="button" class="modal-close" data-close-modal="school-year-reset-modal" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <p class="sheet-hint" style="margin-bottom:14px;">Deletes <strong>saved student rows</strong> (names, parents, and all fee amounts) so you can enter fresh data. Section layout and custom columns are kept. This cannot be undone.</p>
+        <div class="form-group">
+          <span class="form-label">Reset scope</span>
+          <div class="reset-scope-options">
+            <label class="reset-scope-option">
+              <input type="radio" name="reset-scope" value="section" checked>
+              <span>Current section only (<strong id="reset-scope-section-label">Grade 7 – Sec 1</strong>)</span>
+            </label>
+            <label class="reset-scope-option">
+              <input type="radio" name="reset-scope" value="grade">
+              <span>Entire grade (<strong id="reset-scope-grade-label">Grade 7</strong>, all sections)</span>
+            </label>
+            <label class="reset-scope-option">
+              <input type="radio" name="reset-scope" value="all">
+              <span>All grades (Grades 7–12, every section)</span>
+            </label>
+          </div>
+        </div>
+        <label class="reset-scope-option" style="margin-bottom:12px;">
+          <input id="reset-clear-receipts" type="checkbox">
+          <span>Also delete matching receipts from <strong>Receipts Log</strong></span>
+        </label>
+        <p id="reset-summary" class="sheet-hint" style="margin-bottom:12px;"></p>
+        <div class="form-group">
+          <label class="form-label" for="reset-confirm-input">Type <strong>RESET</strong> to confirm</label>
+          <input id="reset-confirm-input" class="form-control" type="text" autocomplete="off" placeholder="RESET">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm" data-close-modal="school-year-reset-modal">Cancel</button>
+        <button type="button" class="btn btn-sm btn-danger" id="confirm-school-year-reset-btn">Reset for new school year</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Remove section -->
+  <div id="confirm-section-modal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <span class="modal-title">Remove section</span>
+        <button type="button" class="modal-close" data-close-modal="confirm-section-modal" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <p class="sheet-hint" style="margin-bottom:12px;">Choose which section to remove from <strong id="remove-section-grade-label">Grade 7</strong>, or remove <strong>all extra sections</strong> and keep Section 1 only. Sections with student data cannot be removed.</p>
+        <div class="form-group">
+          <label class="form-label" for="remove-section-select">Section to remove</label>
+          <select id="remove-section-select" class="form-control"></select>
+        </div>
+        <p id="confirm-section-message" class="sheet-hint" style="margin-top:10px;margin-bottom:0;"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm" data-close-modal="confirm-section-modal">Cancel</button>
+        <button type="button" class="btn btn-sm btn-danger" id="confirm-section-btn">Remove section</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="api.js"></script>
   <script src="auth.js"></script>
   <script src="data.js"></script>
-  <script src="api.js"></script>
   <script src="students.js"></script>
-  <script src="students-page.js"></script>
-
-  <!-- ✦ NEW: Excel import module -->
+  <script src="payments.js"></script>
   <script src="import-students.js"></script>
-
-  <script>
-    /* Wire up the Import button */
-    document.getElementById('import-excel-btn').addEventListener('click', function () {
-      window.openImportModal();
-    });
-
-    /**
-     * Called by import-students.js after the user confirms the import.
-     * Receives an array of student objects:
-     *   { name, spta, paper, org, sports, insurance, graduation }
-     */
-    window.addImportedStudents = function (students) {
-      document.dispatchEvent(new CustomEvent('students-imported', { detail: students }));
-    };
-
-    function showImportToast(added, skipped) {
-      const toast = document.getElementById('toast');
-      if (!toast) return;
-      toast.textContent = added + ' student' + (added !== 1 ? 's' : '') + ' imported successfully' +
-        (skipped ? ' · ' + skipped + ' skipped' : '') + '.';
-      toast.classList.add('show');
-      setTimeout(function () { toast.classList.remove('show'); }, 4000);
-    }
-  </script>
-
-  <!-- ✦ Minimal extra style for the Import button -->
-  <style>
-    .import-excel-btn {
-      background: #16a34a !important;
-      color: #fff !important;
-      border-color: #16a34a !important;
-    }
-    .import-excel-btn:hover { background: #15803d !important; border-color: #15803d !important; }
-    .export-excel-btn {
-      background: #2563eb !important;
-      color: #fff !important;
-      border-color: #2563eb !important;
-    }
-    .export-excel-btn:hover { background: #1d4ed8 !important; border-color: #1d4ed8 !important; }
-  </style>
 </body>
 </html>
