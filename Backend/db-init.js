@@ -1,5 +1,7 @@
 const fs = require('fs');
 
+const DEFAULT_GRADE_SECTIONS = { 7: 12, 8: 13, 9: 10, 10: 11, 11: 13, 12: 13 };
+
 function initializeTables(db) {
   return new Promise((resolve, reject) => {
     try {
@@ -10,6 +12,7 @@ function initializeTables(db) {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             first_name TEXT NOT NULL,
             last_name TEXT NOT NULL,
+            parent TEXT DEFAULT '',
             grade TEXT NOT NULL,
             section TEXT NOT NULL,
             has_sibling INTEGER NOT NULL DEFAULT 0,
@@ -26,6 +29,23 @@ function initializeTables(db) {
         `, (err) => {
           if (err) console.error('Error creating students table:', err);
           else console.log('✓ Students table ensured');
+        });
+
+        db.run(`
+          CREATE UNIQUE INDEX IF NOT EXISTS idx_students_unique_name_grade_section
+          ON students (lower(trim(first_name)), lower(trim(last_name)), lower(trim(grade)), trim(section))
+        `, (err) => {
+          if (err) console.error('Error creating unique student index:', err);
+          else console.log('âœ“ Unique student index ensured');
+        });
+
+        db.all(`PRAGMA table_info(students)`, (err, columns) => {
+          if (!err && columns && !columns.find((col) => col.name === 'parent')) {
+            db.run(`ALTER TABLE students ADD COLUMN parent TEXT DEFAULT ''`, (alterErr) => {
+              if (alterErr) console.error('Error adding parent column to students:', alterErr);
+              else console.log('✓ Added missing parent column to students table');
+            });
+          }
         });
 
         // Payment status table
@@ -135,11 +155,24 @@ function initializeTables(db) {
           if (err) console.error('Error inserting default fees:', err);
           else console.log('✓ Default fees ensured');
         });
+        // Section settings table
+        db.run(`
+          CREATE TABLE IF NOT EXISTS section_settings (
+            grade INTEGER PRIMARY KEY,
+            section_count INTEGER NOT NULL
+          )
+        `, (err) => {
+          if (err) console.error('Error creating section_settings table:', err);
+          else console.log('✓ Section settings table ensured');
+        });
 
-        // Insert default admin user
-        db.run(`INSERT OR IGNORE INTO users (username, password, role) VALUES ('admin', '1234', 'admin')`, (err) => {
-          if (err) console.error('Error inserting default user:', err);
-          else console.log('✓ Default admin user ensured (username: admin, password: 1234)');
+        const sectionStmt = db.prepare(`INSERT OR IGNORE INTO section_settings (grade, section_count) VALUES (?, ?)`);
+        Object.entries(DEFAULT_GRADE_SECTIONS).forEach(([grade, count]) => {
+          sectionStmt.run(Number(grade), Number(count));
+        });
+        sectionStmt.finalize((err) => {
+          if (err) console.error('Error inserting default section counts:', err);
+          else console.log('✓ Default section counts ensured');
         });
 
         // Allow a short delay for all statements to complete
@@ -152,3 +185,5 @@ function initializeTables(db) {
 }
 
 module.exports = { initializeTables };
+
+

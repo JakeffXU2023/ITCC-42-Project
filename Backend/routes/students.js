@@ -33,18 +33,35 @@ router.get('/:id', async (req, res) => {
 // Create new student
 router.post('/', async (req, res) => {
   try {
-    const { first_name, last_name, grade, section, has_sibling, spta, school_paper, school_org, sports, insurance_amount, insurance_choice, graduation } = req.body;
+    const { first_name, last_name, parent, grade, section, has_sibling, spta, school_paper, school_org, sports, insurance_amount, insurance_choice, graduation } = req.body;
     
-    if (!first_name || !last_name || !grade || !section) {
+    if (!grade || !section) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    const formattedGrade = String(grade).trim().startsWith('Grade ') ? String(grade).trim() : `Grade ${String(grade).trim()}`;
+    const normalizedFirstName = String(first_name || '').trim();
+    const normalizedLastName = String(last_name || '').trim();
+    const normalizedGradeInput = String(grade).trim();
+    const formattedGrade = normalizedGradeInput.startsWith('Grade ') ? normalizedGradeInput : `Grade ${normalizedGradeInput}`;
+    const normalizedSection = String(section).trim();
+
+    const duplicateStudent = await getAsync(
+      `SELECT id FROM students
+       WHERE lower(trim(first_name)) = lower(trim(?))
+         AND lower(trim(last_name)) = lower(trim(?))
+         AND lower(trim(grade)) = lower(trim(?))
+         AND trim(section) = trim(?)`,
+      [normalizedFirstName, normalizedLastName, formattedGrade, normalizedSection]
+    );
+
+    if (duplicateStudent) {
+      return res.status(409).json({ error: 'Duplicate student already exists for that grade and section.' });
+    }
 
     const result = await runAsync(
-      `INSERT INTO students (first_name, last_name, grade, section, has_sibling, spta, school_paper, school_org, sports, insurance_amount, insurance_choice, graduation)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [first_name, last_name, formattedGrade, section, has_sibling ? 1 : 0, spta || 0, school_paper || 0, school_org || 0, sports || 0, insurance_amount || 0, insurance_choice || 'unpaid', graduation || 0]
+      `INSERT INTO students (first_name, last_name, parent, grade, section, has_sibling, spta, school_paper, school_org, sports, insurance_amount, insurance_choice, graduation)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [normalizedFirstName, normalizedLastName, parent || '', formattedGrade, normalizedSection, has_sibling ? 1 : 0, spta || 0, school_paper || 0, school_org || 0, sports || 0, insurance_amount || 0, insurance_choice || 'unpaid', graduation || 0]
     );
 
     // Initialize payment statuses
@@ -68,13 +85,13 @@ router.post('/', async (req, res) => {
 // Update student
 router.put('/:id', async (req, res) => {
   try {
-    const { first_name, last_name, grade, section, has_sibling, spta, school_paper, school_org, sports, insurance_amount, insurance_choice, graduation } = req.body;
+    const { first_name, last_name, parent, grade, section, has_sibling, spta, school_paper, school_org, sports, insurance_amount, insurance_choice, graduation } = req.body;
     const formattedGrade = String(grade).trim().startsWith('Grade ') ? String(grade).trim() : `Grade ${String(grade).trim()}`;
     
     await runAsync(
-      `UPDATE students SET first_name = ?, last_name = ?, grade = ?, section = ?, has_sibling = ?, spta = ?, school_paper = ?, school_org = ?, sports = ?, insurance_amount = ?, insurance_choice = ?, graduation = ?, updated_at = CURRENT_TIMESTAMP
+      `UPDATE students SET first_name = ?, last_name = ?, parent = ?, grade = ?, section = ?, has_sibling = ?, spta = ?, school_paper = ?, school_org = ?, sports = ?, insurance_amount = ?, insurance_choice = ?, graduation = ?, updated_at = CURRENT_TIMESTAMP
        WHERE id = ?`,
-      [first_name, last_name, formattedGrade, section, has_sibling ? 1 : 0, spta || 0, school_paper || 0, school_org || 0, sports || 0, insurance_amount || 0, insurance_choice || 'unpaid', graduation || 0, req.params.id]
+      [first_name, last_name, parent || '', formattedGrade, section, has_sibling ? 1 : 0, spta || 0, school_paper || 0, school_org || 0, sports || 0, insurance_amount || 0, insurance_choice || 'unpaid', graduation || 0, req.params.id]
     );
 
     res.json({ message: 'Student updated successfully' });

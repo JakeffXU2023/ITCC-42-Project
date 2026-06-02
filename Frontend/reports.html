@@ -2,11 +2,130 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0;url=students.html">
-  <title>Redirecting…</title>
-  <script>window.location.replace('students.html');</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PTA Cashiering System — Fee Categories</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <p>Redirecting to <a href="students.html">Student Records</a>.</p>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo">
+          <img src="SPTA_Logo.png" alt="SPTA Cashiering System logo">
+        </div>
+        <div class="brand-name">SPTA Cashiering<br>System</div>
+        <div class="brand-year">SY 2024–2025</div>
+      </div>
+
+      <div class="nav-section-label">Main</div>
+      <a class="nav-item" href="dashboard.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </a>
+      <a class="nav-item" href="students.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Student Records
+      </a>
+      <a class="nav-item" href="payments.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        New Payment
+      </a>
+      <a class="nav-item" href="reciepts.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Receipts Log
+      </a>
+
+      <div class="nav-section-label">Finance</div>
+      <a class="nav-item active" href="reports.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Fee Categories
+      </a>
+      <a class="nav-item" href="settings.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Fund Usage
+      </a>
+
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-user">
+        <div class="user-avatar">AD</div>
+        <div>
+          <div class="user-name">Admin</div>
+          <div class="user-role">Cashier</div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main">
+      <div class="topbar">
+        <div class="topbar-left">
+          <span class="page-title">Fee Categories</span>
+          <span class="page-badge">Manage</span>
+        </div>
+        <div class="topbar-right">
+          <a class="btn btn-sm" href="payments.html">New Payment</a>
+          <a class="btn btn-sm" href="login.html" onclick="signOut()">Sign out</a>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Fee categories</span>
+            <button id="add-fee-btn" class="btn btn-sm btn-primary" type="button">Add category</button>
+          </div>
+          <div id="fee-categories-list" class="card-body">
+              <div class="fee-item-left">
+                <div class="fee-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue-600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+                <div>
+                  <div class="fee-name">SPTA Membership</div>
+                  <div class="fee-scope">All grade levels</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div class="fee-amount">₱150.00</div>
+                <span class="badge badge-info">Standard</span>
+                <button class="btn btn-xs" type="button">Edit</button>
+                <button class="btn btn-xs btn-danger" type="button">Delete</button>
+              </div>
+            </div>
+            <div class="fee-item">
+              <div class="fee-item-left">
+                <div class="fee-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue-600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+                <div>
+                  <div class="fee-name">School Paper</div>
+                  <div class="fee-scope">All grade levels</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div class="fee-amount">₱50.00</div>
+                <span class="badge badge-info">Standard</span>
+                <button class="btn btn-xs" type="button">Edit</button>
+                <button class="btn btn-xs btn-danger" type="button">Delete</button>
+              </div>
+            </div>
+            <div class="fee-item">
+              <div class="fee-item-left">
+                <div class="fee-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue-600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+                <div>
+                  <div class="fee-name">Graduation Fee</div>
+                  <div class="fee-scope">Grade 10 & Grade 12 only</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div class="fee-amount">₱500.00</div>
+                <span class="badge badge-partial">Conditional</span>
+                <button class="btn btn-xs" type="button">Edit</button>
+                <button class="btn btn-xs btn-danger" type="button">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="toast"></div>
+  <script src="auth.js"></script>
+  <script src="data.js"></script>
+  <script src="reports.js"></script>
 </body>
 </html>

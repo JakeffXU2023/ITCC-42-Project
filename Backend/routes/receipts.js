@@ -8,6 +8,7 @@ function parseReceiptRow(row) {
     ...row,
     fees: Array.isArray(fees) ? fees : [row.fee_type].filter(Boolean),
     student: row.first_name && row.last_name ? `${row.last_name}, ${row.first_name}` : row.student || '',
+    parent: row.parent || '',
   };
 }
 
@@ -15,7 +16,7 @@ function parseReceiptRow(row) {
 router.get('/', async (req, res) => {
   try {
     const receipts = await allAsync(`
-      SELECT r.*, s.first_name, s.last_name 
+      SELECT r.*, s.first_name, s.last_name, s.parent
       FROM receipts r 
       JOIN students s ON r.student_id = s.id 
       ORDER BY r.payment_date DESC
@@ -30,7 +31,7 @@ router.get('/', async (req, res) => {
 router.get('/student/:studentId', async (req, res) => {
   try {
     const receipts = await allAsync(`
-      SELECT r.*, s.first_name, s.last_name
+      SELECT r.*, s.first_name, s.last_name, s.parent
       FROM receipts r
       JOIN students s ON r.student_id = s.id
       WHERE r.student_id = ?
@@ -46,7 +47,7 @@ router.get('/student/:studentId', async (req, res) => {
 // Get a specific receipt
 router.get('/:id', async (req, res) => {
   try {
-    const receipt = await getAsync('SELECT r.*, s.first_name, s.last_name FROM receipts r JOIN students s ON r.student_id = s.id WHERE r.id = ?', [req.params.id]);
+    const receipt = await getAsync('SELECT r.*, s.first_name, s.last_name, s.parent FROM receipts r JOIN students s ON r.student_id = s.id WHERE r.id = ?', [req.params.id]);
     if (!receipt) {
       return res.status(404).json({ error: 'Receipt not found' });
     }
@@ -99,7 +100,7 @@ router.delete('/:id', async (req, res) => {
 router.get('/range/:startDate/:endDate', async (req, res) => {
   try {
     const receipts = await allAsync(`
-      SELECT r.*, s.first_name, s.last_name 
+      SELECT r.*, s.first_name, s.last_name, s.parent
       FROM receipts r 
       JOIN students s ON r.student_id = s.id 
       WHERE DATE(r.payment_date) BETWEEN ? AND ?

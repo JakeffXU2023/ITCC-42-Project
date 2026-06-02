@@ -1,542 +1,404 @@
-# PTA Cashiering System - User Manual
+﻿# PTA Cashiering System - User Manual
 
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [System Requirements](#system-requirements)
 3. [Getting Started](#getting-started)
-4. [Dashboard](#dashboard)
-5. [Student Records](#student-records)
-6. [Payment Processing](#payment-processing)
-7. [Receipts](#receipts)
-8. [Reports & Settings](#reports--settings)
-9. [Troubleshooting](#troubleshooting)
-10. [FAQ](#faq)
+4. [Login](#login)
+5. [Dashboard](#dashboard)
+6. [Student Records](#student-records)
+7. [New Payment](#new-payment)
+8. [Receipts Log](#receipts-log)
+9. [Fee Categories](#fee-categories)
+10. [Fund Usage](#fund-usage)
+11. [Troubleshooting](#troubleshooting)
+12. [FAQ](#faq)
 
 ---
 
 ## Introduction
 
-The **PTA Cashiering System** is a web-based application designed to help Parent-Teacher Associations (PTAs) manage student fees, track payments, and generate financial reports. The system maintains records of all students by grade and section, manages multiple fee categories, and provides a transparent accounting system for PTA funds.
+The **PTA Cashiering System** is a browser-based cashiering application for PTA fee collection, student tracking, and financial reporting. The current system supports:
 
-### Key Features
-- **Student Management**: Organize students by grade and section
-- **Fee Management**: Create and manage different fee categories
-- **Payment Tracking**: Track individual student payments for each fee
-- **Receipt Generation**: Automatic receipt creation for payment records
-- **Financial Reports**: View summaries and detailed breakdowns of collections
-- **Multi-Grade Support**: Full support for grades 7-12 with customizable sections
-- **Sibling Exemptions**: Automatically apply fee exemptions for sibling students
+- Grade and section-based student records for Grades 7 through 12
+- Student fee tracking for SPTA, School Paper, School Organization, Sports, Insurance, and Graduation
+- Receipt creation with PDF print capability
+- Fee category management
+- Section count settings per grade
+- School year switching using separate database files
+- Disbursement tracking and balance display
+- Authentication with a registered user account
+- Import students from Excel/CSV and export student lists to CSV
 
 ---
 
 ## System Requirements
 
-### Software Requirements
-- **Web Browser**: Modern browser (Chrome, Firefox, Safari, or Edge)
-- **Internet Connection**: Required only when using the browser-based frontend to connect to the backend remotely. If using the Electron desktop client with a local backend, an internet connection is not required.
-- **Backend Server**: Must be running on `http://localhost:3001`
+### Software
+- **Node.js** (v14 or higher) for the backend
+- **npm** for installing dependencies
+- **Web browser**: Chrome, Edge, Firefox, Safari, or any modern browser
 
-### Browser Compatibility
-- Chrome/Chromium 90+
-- Firefox 88+
-- Safari 14+
-- Edge 90+
+### Local Setup
+- Backend server must run on `http://localhost:3001`
+- Frontend pages are static HTML and can be opened directly or served using a local file server
 
-### Hardware Requirements
-- CPU: 1.5 GHz or higher
-- RAM: 512 MB minimum
-- Storage: 100 MB available space
+### Hardware
+- CPU: 1.5 GHz or faster
+- RAM: 512 MB or more
+- Disk: 100 MB available space
 
 ---
 
 ## Getting Started
 
-### Starting the System
+### Start the Backend Server
 
-#### Step 1: Start the Backend Server
-```bash
-cd Backend
-npm install    # (First time only)
+1. Open a terminal or command prompt
+2. Navigate to the backend folder:
+
+```powershell
+cd "C:\Users\user\Desktop\Coding Stuff\ITCC42\PTA Cashiering System\Backend"
+```
+
+3. Install dependencies (first time only):
+
+```powershell
+npm install
+```
+
+4. Start the backend server:
+
+```powershell
 npm start
 ```
-You should see:
+
+5. Confirm the backend is running on:
+
 ```
-✓ PTA Cashiering System Backend running on http://localhost:3001
+http://localhost:3001
 ```
 
-#### Step 2: Open the Frontend
-1. Open your web browser
-2. Navigate to: `http://127.0.0.1:5500/Frontend/dashboard.html`
-   - Or use your local server address if running via Live Server or similar tool
+### Open the Frontend
 
-### Electron Integration
-If you are using the Electron desktop version of the app, you can open the packaged client instead of a browser page. The Electron client connects to the same backend server at `http://localhost:3001`.
+1. In your browser, open the frontend pages from the `Frontend` folder.
+2. Recommended starting page:
 
-- No internet connection is required when both the Electron client and backend are running locally.
-- Ensure the backend is started before launching the Electron client.
-- If the Electron client is configured to use a remote backend, it will require internet access.
+```
+Frontend/dashboard.html
+```
 
-#### Step 3: Login (if authentication is enabled)
-- Enter your credentials on the login page
-- Click "Login"
+If you are using a local server like Live Server, point the browser to the local address for those HTML files.
 
-### Initial Setup
+---
 
-On your first use, the system comes with sample data:
-- 10 sample students across grades 7-12
-- 5 standard fee categories
-- 3 sample disbursements
+## Login
 
-You can delete this sample data and start fresh, or use it to become familiar with the system.
+The system uses a registered account to protect the application.
+
+### First-time access
+
+- If no account exists, the login page switches to registration mode automatically.
+- Create a username and password to register the first user.
+
+### Returning user
+
+- Enter the registered username and password.
+- Click **Sign In**.
+
+### Sign out
+
+- Use the **Sign out** button in the top-right corner of any page.
 
 ---
 
 ## Dashboard
 
-The **Dashboard** is your home screen showing key financial metrics and recent activity.
+The dashboard is the home screen and provides a quick summary of PTA collections, payment progress, and recent activity.
 
-### Dashboard Sections
+### Key sections
 
-#### 1. Summary Cards (Top)
-- **Total Collections**: Total amount collected from all receipts
-- **Total Students**: Total number of students in the system
-- **Collection Rate**: Percentage of students who have paid any fees
-- **Account Balance**: Total collections minus disbursements
+- **Total collected** — total amount received from all payments recorded in the current school year.
+- **Students enrolled** — total number of student records in the active school year database.
+- **Fully paid** — percentage of students who have all tracked fee categories marked as paid or exempt.
+- **Balance due** — net available funds after subtracting recorded disbursements from total collections.
+- **Collection by grade level** — a bar chart showing the paid percentage for each grade from Grade 7 to Grade 12.
+- **Fee category totals** — total amounts collected per fee category, based on the fee categories configured in the system.
+- **Recent transactions** — the most recent receipts, with receipt number, student, grade/section, payment amount, and transaction date.
 
-#### 2. Grade-Based Collection Chart
-Shows the payment collection rate for each grade:
-- Grades 7-12 are displayed
-- Each bar shows the percentage of students in that grade who have completed payment
-- Hover over bars to see exact percentages
+### Dashboard behavior
 
-#### 3. Fee Summary Grid
-Displays revenue collected by fee category:
-- Shows each fee type with total collected
-- Displays number of students who paid for each category
-- Helps identify which fees have strong collection
+- The dashboard loads live data from the backend whenever the page is opened.
+- Summary values are updated from reports and receipt data stored in the backend database.
+- Grade and fee totals reflect actual collected amounts, not placeholder values.
+- Recent transactions show the newest payment receipts available in the system.
 
-#### 4. Recent Transactions Table
-Shows the last 5 receipts created:
-- Receipt ID and date
-- Student name and grade/section
-- Amount collected
-- Payment status (paid/partial)
+### Navigation
 
-### Navigating from Dashboard
-- Click **Student Records** tab to manage student data
-- Click **Payments** tab to process new payments
-- Click **Receipts** tab to view all receipt history
-- Click **Reports** tab for detailed analysis
-- Click **Settings** tab to manage fees and disbursements
+Use the left sidebar to move between:
+- Dashboard
+- Student Records
+- New Payment
+- Receipts Log
+- Fee Categories
+- Fund Usage
 
 ---
 
 ## Student Records
 
-The **Student Records** module allows you to manage all student information and track individual fee payments.
+The Student Records page lets you manage student entries by grade and section.
 
-### Viewing Students
+### Viewing student records
 
-1. Click the **Student Records** tab
-2. Select a **Grade** (tabs at top: Grade 7, 8, 9, 10, 11, 12)
-3. Select a **Section** (pills below grade tabs)
-4. The spreadsheet displays all students in that grade/section
+1. Click **Student Records** in the sidebar.
+2. Select a grade tab at the top (Grade 7 to Grade 12).
+3. Select a section pill below the tabs.
+4. The student table shows records for the chosen grade/section.
 
-### Student Information Display
+### Student table columns
 
-Each student row shows:
-- **Student Name**: First and last name
-- **Parent/Guardian Name**: Contact person for the account
-- **Fee Columns**: Individual columns for each fee category
-- **Status**: Payment status for each fee (Paid, Unpaid, or Partial)
-- **Actions**: Buttons to edit, process payment, or delete
+- Student name
+- SPTA
+- School Paper
+- School Org
+- Sports
+- Insurance
+- Graduation
+- Total paid
+- Status
+- Actions
 
-### Adding a New Student
+### Search and filter
 
-1. Click **Add Student** button
-2. In the modal, enter:
-   - **Student Name**: Full name (first and last)
-   - **Parent Name**: Parent or guardian name
-   - **Sibling**: Check if this student is a sibling (applies exemptions)
-3. Click **Save Student**
-4. The student is added to the current grade and section
+- Use the **Search** box to filter students by name, grade, or section.
+- Use the **All statuses** filter to show only fully paid, partial, or unpaid students.
 
-### Editing a Student
+### Add a student
 
-1. Click the **Edit** icon (pencil) on the student row
-2. Modify the student information
-3. Click **Save Changes**
+1. Click **Add Student**.
+2. Enter last name and first name.
+3. Select the student grade and section.
+4. Check **Has sibling** if the student is part of a sibling family.
+5. Click **Create student**.
 
-### Deleting a Student
+### Import from Excel / CSV
 
-1. Click the **Delete** icon (trash) on the student row
-2. Confirm the deletion
-3. The student record is permanently removed
+1. Click **Import from Excel**.
+2. Upload an `.xlsx`, `.xls`, or `.csv` file.
+3. Map the file columns to the system fields if needed.
+4. Preview the records.
+5. Confirm the import.
 
-### Managing Sections
+**Expected columns** (any order):
+- Student Name
+- SPTA
+- School Paper
+- School Org
+- Sports
+- Insurance
+- Graduation
 
-#### Add a New Section
-1. Click **Add Section** button
-2. New section is added to the current grade
-3. Total sections for the grade increases by 1
+### Export student list
 
-#### Rename a Section
-1. Double-click a section pill (e.g., "Sec 1")
-2. Or click **Rename Section** and select the section
-3. Enter a custom name (e.g., "Hope Class")
-4. Leave blank to use default naming
-5. Click **Save**
+- Click **Export to CSV** to download the currently visible student list.
+- The export includes the active grade, section, and current status filter.
 
-#### Remove a Section
-1. Click **Remove Section** button
-2. Select the section to remove
-3. Confirm that the section has no student data
-4. Click **Remove**
+### Notes
 
-**Note**: Only empty sections can be removed
-
-### Managing Fee Categories
-
-#### View Current Fees
-Fee columns in the spreadsheet show all active fees for the current grade.
-
-#### Add a Custom Fee Column
-1. Click **Add Fee Column** button
-2. Enter the **Category Name** (e.g., "Library Fund")
-3. Click **Save Column**
-4. New column appears in the spreadsheet
-
-#### Remove a Fee Column
-1. Click the **Remove** icon on the column header
-2. Confirm deletion
-3. All associated fee data is removed
-
-**Note**: Standard fees (SPTA, Paper, Organization, Sports, Insurance) cannot be removed from the column view; they're managed in Settings.
-
-### Tracking Payment Status
-
-Each cell in the spreadsheet shows the payment status for that student/fee combination:
-
-- **Green/Paid**: Student has paid the full fee amount
-- **Yellow/Partial**: Student has paid part of the fee
-- **Red/Unpaid**: Student has not paid this fee
-- **Gray/Exempt**: Sibling students exempt from certain fees (SPTA, School Paper)
-
-### Importing Students
-
-1. Click **Import Students** button
-2. Select a CSV or Excel file with student data
-3. The system validates and imports the records
-4. A success message shows the number of students added
-
-### School Year Reset
-
-Use this to clear student records for a new school year while keeping the fee structure:
-
-1. Click **School Year Reset** button
-2. Choose the scope:
-   - **Section**: Clear only the current section
-   - **Grade**: Clear entire grade
-   - **All Grades**: Clear all students
-3. Optionally check **Also clear receipts** to remove transaction history
-4. Type "RESET" to confirm
-5. Click **Confirm Reset**
-
-**Warning**: This action cannot be undone
+- Student deletion is not available from the current UI.
+- The student table uses the current school year database.
 
 ---
 
-## Payment Processing
+## New Payment
 
-The **Payments** tab is where you record when students pay their fees.
+The New Payment page records payments and generates receipts.
 
-### Recording a Payment
+### Choose a student
 
-1. Click **Student Records** tab
-2. Locate the student who is making a payment
-3. Click the **Pay** button on that student's row
-4. The Payment Modal opens
+1. Click **New Payment** in the sidebar.
+2. Select a grade and section.
+3. Click a student from the loaded list.
 
-### Payment Modal
+### Sibling discount
 
-In the payment modal, you'll see:
-- **Student Name**: Display only (for reference)
-- **Grade/Section**: Current student's placement
-- **Fee Entry Fields**: For each unpaid or partial fee:
-  - Checkbox to select the fee
-  - Input field to enter amount paid
-  - Current status display
+- Enable **Apply sibling discount** to mark SPTA Membership and School Paper fees as zero for the selected sibling family name.
+- Select the sibling last name from the dropdown.
 
-### Steps to Process Payment
+### Select fees to pay
 
-1. **Select Fees**: Check the boxes for fees the student is paying
-2. **Enter Amounts**: Type the amount paid for each selected fee
-   - For full payment, enter the full fee amount
-   - For partial payment, enter the partial amount
-3. **Review**: Total amount shows at the bottom
-4. **Submit**: Click **Process Payment**
-5. A receipt is automatically generated and displayed
+- Check the fees the student is paying.
+- Enter the payment amount for each selected fee.
+- The page shows the total payment amount and the current payment outcome.
 
-### Payment Confirmation
+### Process payment
 
-After submitting payment:
-- Receipt preview shows all paid, unpaid, and exempt fees
-- Receipt number is assigned automatically
-- Payment status updates in the spreadsheet immediately
-- You can print the receipt directly from the preview
+1. Click **Process, save & download receipt**.
+2. The system saves payment status for each selected fee.
+3. A receipt is created automatically.
+4. The receipt opens in a new window for printing or saving as PDF.
+
+### Payment statuses
+
+- **Paid**: full fee amount paid
+- **Partial**: some amount paid, but not full
+- **Unpaid**: no amount paid
+- **Exempt**: fee is waived due to sibling status or cut-off insurance
 
 ---
 
-## Receipts
+## Receipts Log
 
-The **Receipts** tab displays a complete history of all transactions and payment records.
+The Receipts Log page shows all saved receipts.
 
-### Viewing Receipts
+### Viewing receipts
 
-1. Click the **Receipts** tab
-2. All receipts are displayed in a table with:
-   - Receipt ID (e.g., #1001)
-   - Student name
-   - Grade and section
-   - Fees paid (with amounts)
-   - Total amount
-   - Transaction date
-   - Status (Paid/Partial)
+- Use the search box to filter receipts by student name, fee category, or payment date.
+- The table displays each receipt’s student name, fee amounts, total paid, and status.
 
-### Searching Receipts
+### Print receipts
 
-1. Use the **Search** box at the top
-2. Type to search by:
-   - Student name
-   - Grade
-   - Section
-   - Fee category name
-   - Date
+- Click **Print all** to print the current receipt log.
+- The system opens a print window that can save to PDF or send to a physical printer.
 
-Results filter in real-time as you type.
+### Notes
 
-### Viewing Receipt Details
-
-1. Click **View** button on a receipt row
-2. A detailed receipt appears showing:
-   - All paid fee categories with amounts
-   - Any unpaid fees (for partial payments)
-   - Exempt fees (for siblings)
-   - Receipt date and ID
-   - Student information
-
-### Deleting a Receipt
-
-1. Click **Delete** button on a receipt row
-2. Confirm the deletion
-3. The receipt is permanently removed
-4. Collections total is adjusted
-
-**Note**: Use with caution as this affects financial reports
-
-### Printing Receipts
-
-1. Open the receipt details
-2. Use your browser's print function (Ctrl+P or Cmd+P)
-3. Save as PDF or print to physical printer
-4. Receipt will format properly for printing
+- Receipts are generated from payment processing.
+- Receipts cannot be edited from the current UI.
 
 ---
 
-## Reports & Settings
+## Fee Categories
 
-### Reports
+The Fee Categories page manages the fees used throughout the system.
 
-The **Reports** tab provides financial analysis and insights.
+### Add a fee category
 
-#### Summary Report
-- Total collections across all fees
-- Total disbursements
-- Current account balance
-- Collection efficiency metrics
+1. Click **Add category**.
+2. Enter a fee name.
+3. Set the amount.
+4. Enter the scope (for example, All, Grade 10 & 12, Grade 7-10).
+5. Save the category.
 
-#### Fee Category Report
-Shows breakdown by fee type:
-- How much collected for each fee
-- Number of students who paid
-- Percentage collection rate per fee
+### Edit a fee category
 
-#### Grade-Level Report
-Shows collection status by grade:
-- Payment count per grade
-- Average payment per grade
-- Grade-wise collection percentage
+1. Click **Edit** next to a fee.
+2. Modify the name, amount, or scope.
+3. Save your changes.
 
-#### Student Detailed Report
-Individual student breakdown:
-- Student name and grade/section
-- Payment history
-- Outstanding balances
-- Total paid amount
+### Delete a fee category
 
-### Settings
+1. Click **Delete** next to a fee.
+2. Confirm the deletion.
 
-The **Settings** tab manages system configuration and financial tracking.
+### Standard fees
 
-#### Fee Management
-- **View All Fees**: List of all fee categories in the system
-- **Add Fee**: Create new system-wide fee categories
-- **Edit Fee**: Modify fee name, amount, or scope (all grades vs. specific grades)
-- **Delete Fee**: Remove unused fee categories
+The system includes standard fees such as:
+- SPTA Membership
+- School Paper
+- School Organization
+- Sports
+- Insurance
+- Graduation Fee
 
-#### Disbursement Tracking
-Disbursements represent money spent from PTA collections.
+Use this page to add custom fees or adjust existing fees.
 
-**Adding a Disbursement:**
-1. Click **Add Disbursement** button
-2. Enter:
-   - **Purpose**: What the money was used for (e.g., "Scholarship for 10 students")
-   - **Category**: Type of expense (Financial Assistance, Sports, School Paper, etc.)
-   - **Amount**: How much was disbursed
-   - **Authorized By**: Name of person approving the expense
-3. Click **Save**
+---
 
-**Viewing Disbursements:**
-- All disbursements are listed chronologically
-- Shows date, amount, purpose, and category
-- Total disbursed amount shown at bottom
-- Balance = Total Collections - Total Disbursements
+## Fund Usage
 
-#### System Preferences
-- **School Year**: Set the current academic year
-- **Organization Name**: Name of the PTA
-- **Auto-save**: Enable/disable automatic backup
+The Fund Usage page contains school year, section, and disbursement settings.
+
+### Sections per grade
+
+- Each grade can have between 1 and 13 sections.
+- Use the minus button to remove a section and the plus button to add one.
+- A section can only be removed if no students are currently assigned to it.
+
+### School year
+
+- Enter the academic year in `YYYY-YYYY` format.
+- Click **Save school year** to switch to that year’s database.
+- Each school year uses a separate database file.
+
+### Disbursements
+
+- Click **Record disbursement** to log an expense.
+- Provide the purpose, category, and amount.
+- Disbursements reduce the available balance shown at the top.
+
+### Balance display
+
+- **Available balance** = total collections − total disbursements
+- **Collected** shows the current receipts total
+- **Disbursed** shows the sum of recorded disbursements
 
 ---
 
 ## Troubleshooting
 
-### "Error: Backend not running"
+### Cannot login
 
-**Problem**: You see this message on any page
-- **Solution 1**: Make sure the backend server is started
-  ```bash
-  cd Backend
-  npm start
-  ```
-- **Solution 2**: Check that port 3001 is available
-- **Solution 3**: Verify the browser is trying to connect to `http://localhost:3001`
+- Make sure the backend server is running.
+- Check your username and password.
+- If the system has no account yet, use the registration mode on the login page.
 
-### Student data not saving
+### Backend not running
 
-**Problem**: Students I added are gone after refresh
-- **Solution 1**: Ensure backend is running
-- **Solution 2**: Check that your browser's developer console shows no errors (F12)
-- **Solution 3**: Try clearing browser cache and refreshing
+- Start the server from the `Backend` folder:
 
-### Receipts not generating
+```powershell
+npm start
+```
 
-**Problem**: Payment submitted but no receipt appears
-- **Solution 1**: Check that all required amounts are entered
-- **Solution 2**: Verify at least one fee is selected for payment
-- **Solution 3**: Check browser console for error messages
+- Ensure the backend is reachable at `http://localhost:3001`.
 
-### Can't add students to a section
+### Receipt print window blocked
 
-**Problem**: Add Student button doesn't work
-- **Solution 1**: Make sure you've selected a grade and section
-- **Solution 2**: Refresh the page and try again
-- **Solution 3**: Check browser console for error messages
+- Allow popups for the frontend page.
+- If printing does not appear, try again or use the browser’s print menu.
 
-### Search not working in Receipts
+### Imported students do not appear
 
-**Problem**: Search box doesn't filter results
-- **Solution 1**: Clear search box completely
-- **Solution 2**: Refresh the page
-- **Solution 3**: Type more specific search terms
+- Ensure the imported file has the required columns.
+- Confirm that the row data includes valid student names.
+- Check the browser console for import errors.
 
-### Calculations seem incorrect
+### Section change fails
 
-**Problem**: Totals or percentages don't match expected values
-- **Solution 1**: Refresh the page to reload fresh data
-- **Solution 2**: Check that all students are assigned to correct grade/section
-- **Solution 3**: Verify no duplicate entries exist
+- A section can only be removed if it contains zero students.
+- Move or delete students from the section before reducing the section count.
 
 ---
 
 ## FAQ
 
-### Q: Can I modify the standard fees (SPTA, Paper, etc.)?
-**A**: Yes, go to **Settings** → **Fee Management** and click Edit on any standard fee. You can change the amount and which grades it applies to.
+### Q: How do I create the first user?
+**A**: Open the login page. If no account exists, the page shows registration fields. Enter a username, password, and confirm the password.
 
-### Q: What happens if I delete a student?
-**A**: The student record is permanently deleted. Any receipts associated with that student remain, but the student cannot be recovered unless you have a database backup.
+### Q: Can I delete a student?
+**A**: The current UI supports adding students only. Student deletion is not available from the Student Records page.
 
-### Q: How do I mark a payment as "partial" vs "full"?
-**A**: In the Payment Modal, simply enter any amount less than the fee total to create a partial payment. The system automatically determines the status.
+### Q: Can I edit student fee amounts?
+**A**: Student fee amounts are updated automatically through payment processing and fee category settings. To change the system fee amount, edit the fee category.
 
-### Q: Can I edit a receipt after it's been created?
-**A**: No, receipts are permanent records. If there's an error, you would need to delete the incorrect receipt and create a new one.
-
-### Q: How many students can the system handle?
-**A**: The system can handle thousands of students efficiently. Performance may vary depending on your computer specifications.
-
-### Q: Is there a backup feature?
-**A**: The system automatically saves all data to the database. For additional security, you can export your data through the backend or contact your system administrator for backup procedures.
-
-### Q: Can I use this system offline?
-**A**: No, the system requires a connection to the backend server running on `localhost:3001`. A version could be created for offline use, but that's not currently supported.
-
-### Q: What if I accidentally reset the school year?
-**A**: The reset action cannot be undone through the UI. You would need to restore from a database backup or re-enter the data manually.
-
-### Q: How do I add a new grade level?
-**A**: The system supports grades 7-12 by default. To add additional grades, contact your system administrator.
+### Q: What happens when I switch the school year?
+**A**: The system loads a separate database for the selected school year. Existing student and payment data remain in the previously active year.
 
 ### Q: Can I export reports to Excel?
-**A**: Currently, reports are displayed on-screen. You can print to PDF using your browser. Full Excel export can be requested as a feature enhancement.
+**A**: The current system supports exporting visible student records to CSV and printing receipt logs. Full Excel report export is not available in the UI.
 
-### Q: What's the difference between "Paid," "Partial," and "Unpaid"?
-- **Paid**: Student has paid the full fee amount
-- **Partial**: Student has paid some but not all of the fee
-- **Unpaid**: Student hasn't paid any amount for this fee
+### Q: How do sibling discounts work?
+**A**: When sibling discount is enabled and the selected last name matches the student, SPTA Membership and School Paper fees are set to zero for that payment session.
 
-### Q: How do sibling exemptions work?
-**A**: When you mark a student as a "Sibling" during entry, they automatically become exempt from SPTA and School Paper fees. Their amounts for these fees are set to zero and marked "Exempt."
-
-### Q: Can I delete multiple students at once?
-**A**: Currently, you must delete students individually. To delete many students at once, use the **School Year Reset** feature with the appropriate scope.
-
-### Q: How do I contact support?
-**A**: Please contact your system administrator or PTA coordinator for technical issues or feature requests.
+### Q: Where are receipts saved?
+**A**: Receipts are saved in the backend database and displayed in the Receipts Log page. They are also available for print or PDF download.
 
 ---
 
-## Tips & Best Practices
+## Notes
 
-1. **Regular Backups**: Ask your system administrator to perform regular database backups
-2. **Accurate Names**: Use consistent spelling and formatting for student names to avoid duplicates
-3. **Prompt Recording**: Record payments promptly after they're received for accurate reporting
-4. **Monthly Reviews**: Check reports monthly to monitor collection progress
-5. **Section Organization**: Use meaningful section names (e.g., "Hope," "Charity") for easier navigation
-6. **Archive Old Data**: Consider archiving previous school year data before running year-end reset
-7. **Verify Amounts**: Double-check payment amounts before submitting to avoid errors
-
----
-
-## Keyboard Shortcuts
-
-| Action | Shortcut |
-|--------|----------|
-| Print | Ctrl+P (Windows) or Cmd+P (Mac) |
-| Refresh | F5 or Ctrl+R (Windows) or Cmd+R (Mac) |
-| Open Developer Console | F12 |
-| Search in page | Ctrl+F (Windows) or Cmd+F (Mac) |
-
----
-
-## Document Information
-
-- **Version**: 1.0
-- **Last Updated**: May 31, 2026
-- **System Version**: PTA Cashiering System v1.0.0
-- **For Support**: Contact your PTA organization or system administrator
-
----
-
-**Thank you for using the PTA Cashiering System!**
+- This manual matches the current system scope in the `Frontend` and `Backend` folders.
+- Always start the backend before using the frontend.
+- The system currently supports only Grades 7–12.

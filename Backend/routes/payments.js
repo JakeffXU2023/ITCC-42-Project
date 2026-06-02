@@ -13,6 +13,36 @@ function normalizeFeeType(feeType) {
   return value;
 }
 
+function getDueAmountForStudent(student, feeType) {
+  if (!student) return 0;
+
+  if (feeType === 'spta') return Number(student.spta || 0);
+  if (feeType === 'school_paper') return Number(student.school_paper || 0);
+  if (feeType === 'school_org') return Number(student.school_org || 0);
+  if (feeType === 'sports') return Number(student.sports || 0);
+  if (feeType === 'insurance') {
+    if (String(student.insurance_choice || '').toLowerCase() === 'cut_off') {
+      return 0;
+    }
+    return Number(student.insurance_amount || 0);
+  }
+  if (feeType === 'graduation') return Number(student.graduation || 0);
+  return 0;
+}
+
+function resolvePaymentStatus(amountPaid, dueAmount, fallbackStatus = 'unpaid') {
+  const paidAmount = Number(amountPaid || 0);
+  const expectedAmount = Number(dueAmount || 0);
+
+  if (expectedAmount <= 0) {
+    return paidAmount <= 0 ? 'exempt' : 'overpaid';
+  }
+  if (paidAmount <= 0) return 'unpaid';
+  if (paidAmount < expectedAmount) return 'partial';
+  if (paidAmount === expectedAmount) return 'paid';
+  return 'overpaid';
+}
+
 // Get all payments
 router.get('/', async (req, res) => {
   try {
@@ -43,6 +73,14 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
+    const student = await getAsync('SELECT * FROM students WHERE id = ?', [student_id]);
+    if (!student) {
+      return res.status(404).json({ error: 'Student not found' });
+    }
+
+    const dueAmount = getDueAmountForStudent(student, normalizedFeeType);
+    const resolvedStatus = resolvePaymentStatus(amount_paid, dueAmount, status);
+    
     // Check if payment record exists
     const existing = await getAsync(
       'SELECT * FROM payment_status WHERE student_id = ? AND fee_type = ?',
@@ -53,16 +91,16 @@ router.post('/', async (req, res) => {
       // Update existing payment
       await runAsync(
         `UPDATE payment_status SET status = ?, amount_paid = ?, date_paid = CURRENT_TIMESTAMP WHERE student_id = ? AND fee_type = ?`,
-        [status, amount_paid || 0, student_id, normalizedFeeType]
+        [resolvedStatus, amount_paid || 0, student_id, normalizedFeeType]
       );
-      res.json({ message: 'Payment updated successfully' });
+      res.json({ message: 'Payment updated successfully', status: resolvedStatus });
     } else {
       // Create new payment record
       const result = await runAsync(
         `INSERT INTO payment_status (student_id, fee_type, status, amount_paid, date_paid) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)`,
-        [student_id, normalizedFeeType, status, amount_paid || 0]
+        [student_id, normalizedFeeType, resolvedStatus, amount_paid || 0]
       );
-      res.status(201).json({ id: result.id, message: 'Payment recorded successfully' });
+      res.status(201).json({ id: result.id, status: resolvedStatus, message: 'Payment recorded successfully' });
     }
   } catch (err) {
     res.status(500).json({ error: err.message });

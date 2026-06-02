@@ -11,9 +11,10 @@
     <aside class="sidebar">
       <div class="sidebar-brand">
         <div class="brand-logo">
-          <img src="SPTA_Logo.png" alt="PTA Cashiering System logo">
+          <img src="SPTA_Logo.png" alt="SPTA Cashiering System logo">
         </div>
         <div class="brand-name">SPTA Cashiering<br>System</div>
+        <div class="brand-year">SY 2024–2025</div>
       </div>
 
       <div class="nav-section-label">Main</div>
@@ -25,12 +26,20 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         Student Records
       </a>
+      <a class="nav-item" href="payments.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        New Payment
+      </a>
       <a class="nav-item" href="reciepts.html">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
         Receipts Log
       </a>
 
       <div class="nav-section-label">Finance</div>
+      <a class="nav-item" href="reports.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Fee Categories
+      </a>
       <a class="nav-item active" href="settings.html">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
         Fund Usage
@@ -53,12 +62,44 @@
           <span class="page-badge">Disbursements</span>
         </div>
         <div class="topbar-right">
-          <a class="btn btn-sm" href="students.html">Student Records</a>
+          <a class="btn btn-sm" href="payments.html">New Payment</a>
           <a class="btn btn-sm" href="login.html" onclick="signOut()">Sign out</a>
         </div>
       </div>
 
       <div class="content">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Sections per Grade</span>
+            <span class="badge badge-info">1 to 13</span>
+          </div>
+          <div class="card-body">
+            <div id="section-settings-grid" style="display:grid;gap:10px;"></div>
+            <div style="margin-top:10px;font-size:12px;color:var(--text-muted);line-height:1.5;">
+              Use the minus button to delete a section and the plus button to add one. A section can only be deleted if no students are assigned to it.
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">School Year</span>
+            <span class="badge badge-info">Database switch</span>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label class="form-label" for="school-year-input">Active school year</label>
+              <input id="school-year-input" class="form-control" type="text" placeholder="2025-2026" maxlength="9">
+              <div style="margin-top:8px;font-size:12px;color:var(--text-muted);line-height:1.5;">
+                Changing this opens a separate database file for that school year.
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button id="save-school-year-btn" class="btn btn-sm btn-primary" type="button">Save school year</button>
+            </div>
+          </div>
+        </div>
+
         <div class="fund-banner">
           <div>
             <div class="fund-label">Available balance</div>
@@ -88,7 +129,6 @@
     </div>
   </div>
   <div id="toast"></div>
-  <script src="api.js"></script>
   <script src="auth.js"></script>
   <script src="data.js"></script>
   <script src="settings.js"></script>

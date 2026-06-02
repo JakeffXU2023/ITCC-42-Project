@@ -12,18 +12,23 @@
         <div class="login-logo">
           <img src="SPTA_Logo.png" alt="SPTA Cashiering System logo">
         </div>
-        <div class="login-title">SPTA Cashiering System</div>
+        <div class="login-title" id="auth-mode-label">Sign in to continue</div>
+        <div class="login-sub" id="auth-mode-note">Enter the username and password you registered with.</div>
         <div class="login-error" id="login-error">Invalid username or password.</div>
         <div class="form-group" style="text-align:left;">
           <label class="form-label">Username</label>
-          <input class="form-control" type="text" id="login-user" placeholder="Enter username" value="admin">
+          <input class="form-control" type="text" id="login-user" placeholder="Enter username" autocomplete="username">
         </div>
         <div class="form-group" style="text-align:left;">
           <label class="form-label">Password</label>
-          <input class="form-control" type="password" id="login-pass" placeholder="Enter password" value="1234">
+          <input class="form-control" type="password" id="login-pass" placeholder="Enter password" autocomplete="current-password">
         </div>
-        <button class="btn btn-primary" style="width:100%;justify-content:center;padding:10px;" onclick="doLogin()">Sign In</button>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:14px;">Default: admin / 1234</div>
+        <div class="form-group hidden" id="confirm-password-group" style="text-align:left;">
+          <label class="form-label">Confirm Password</label>
+          <input class="form-control" type="password" id="login-pass-confirm" placeholder="Confirm password" autocomplete="new-password">
+        </div>
+        <button class="btn btn-primary" id="auth-submit-btn" style="width:100%;justify-content:center;padding:10px;" type="button" onclick="submitAuth()">Sign In</button>
+        <div id="auth-help-text" style="font-size:11px;color:var(--text-muted);margin-top:14px;">An account already exists on this system.</div>
       </div>
     </div>
     <script src="auth.js"></script>

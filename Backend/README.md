@@ -5,11 +5,15 @@ SQLite-based backend for the PTA Cashiering System with RESTful API endpoints.
 ## Features
 
 - **Student Management**: Add, edit, delete, and retrieve student information
-- **Payment Tracking**: Track payment status for all fees (SPTA, School Paper, School Org, Sports, Insurance, Graduation)
-- **Receipt Management**: Generate and manage payment receipts
-- **Comprehensive Reports**: Generate detailed reports by grade, section, category, and more
-- **Fee Configuration**: Customizable fee amounts and scopes
-- **Sibling Tracking**: Track students with siblings for discount purposes
+- **Payment Tracking**: Track payment status for all fees (SPTA, School Paper, School Org, Sports, Insurance, Graduation) with paid, unpaid, partial, and exempt states
+- **Receipt Management**: Generate, view, delete, and summarize payment receipts by student and date range
+- **Comprehensive Reports**: Generate detailed reports by grade, section, fee category, student, disbursement activity, and sibling list
+- **Fee Configuration**: Customizable fee amounts and fee category management
+- **School Year Management**: Keep separate databases by school year and switch the active year
+- **Section Settings**: Configure the number of sections per grade and preserve student assignment integrity
+- **Disbursement Tracking**: Record and review PTA disbursements and include them in financial summaries
+- **User Authentication**: Register, log in, check account status, and list users
+- **Sibling Tracking**: Track students with siblings for discount or exemption purposes
 
 ## Database Schema
 

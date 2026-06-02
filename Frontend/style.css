@@ -251,6 +251,7 @@
   .badge-paid { background: var(--green-50); color: var(--green-text); }
   .badge-unpaid { background: var(--red-50); color: var(--red-text); }
   .badge-partial { background: var(--amber-50); color: var(--amber-text); }
+  .badge-overpaid { background: var(--blue-50); color: var(--blue-800); border: 1px solid var(--blue-100); }
   .badge-exempt { background: var(--gray-50); color: var(--gray-600); border: 1px solid var(--border); }
   .badge-info { background: var(--blue-50); color: var(--blue-800); }
   .sibling-pill {
@@ -274,38 +275,112 @@
   .form-control:focus { outline: none; border-color: var(--blue-400); box-shadow: 0 0 0 3px var(--blue-50); }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .choice-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-top: 8px;
+    background: var(--surface);
+  }
+  .choice-grid-grade { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .choice-grid-section { grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); }
+  .choice-btn {
+    min-width: 0;
+    padding: 10px 12px;
+    border: 0;
+    border-right: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+    border-radius: 0;
+    background: var(--surface);
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .choice-btn:hover {
+    background: var(--gray-50);
+    color: var(--blue-600);
+  }
+  .choice-btn.active {
+    background: var(--blue-50);
+    color: var(--blue-800);
+  }
+  .choice-btn:focus {
+    outline: none;
+  }
+  .choice-btn:focus-visible {
+    box-shadow: 0 0 0 3px var(--blue-50);
+  }
+  .choice-btn.choice-btn-sm {
+    min-width: 0;
+    padding: 10px 10px;
+  }
 
   /* ─── PROGRESS BAR ─── */
   .progress { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; margin-top: 5px; }
   .progress-fill { height: 100%; background: var(--blue-600); border-radius: 3px; transition: width 0.4s; }
 
   /* ─── TABS ─── */
-  .tab-nav { display: flex; gap: 0; border-bottom: 1px solid var(--border); padding: 0 18px; background: var(--surface); overflow-x: auto; }
-  .tab-btn {
-    padding: 11px 16px; font-size: 13px; font-weight: 500;
-    color: var(--text-muted); cursor: pointer; border: none; background: none;
-    border-bottom: 2px solid transparent; margin-bottom: -1px;
-    white-space: nowrap; transition: color 0.15s;
+  .tab-nav {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--surface);
+    margin-bottom: 14px;
   }
-  .tab-btn:hover { color: var(--text-primary); }
-  .tab-btn.active { color: var(--blue-600); border-bottom-color: var(--blue-600); }
+  .tab-item {
+    flex: 1 1 0;
+    padding: 11px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    border: 0;
+    background: var(--surface);
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s;
+    position: relative;
+  }
+  .tab-item + .tab-item { border-left: 1px solid var(--border-light); }
+  .tab-item:hover { background: var(--gray-50); color: var(--text-primary); }
+  .tab-item.active {
+    background: var(--blue-50);
+    color: var(--blue-800);
+    box-shadow: inset 0 -2px 0 var(--blue-600);
+  }
 
   /* ─── SECTION PILLS ─── */
-  .section-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
-  .sec-pill {
-    padding: 4px 13px; border-radius: 20px;
-    font-size: 12px; font-weight: 500;
-    border: 1px solid var(--border); cursor: pointer;
-    color: var(--text-secondary); background: var(--surface);
-    transition: all 0.15s;
-    max-width: 180px;
+  .section-pills {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(76px, 1fr));
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    background: var(--surface);
+    margin-bottom: 16px;
   }
-  .sec-pill-named { font-weight: 600; }
-  .sec-pill:hover { border-color: var(--blue-400); color: var(--blue-600); }
-  .sec-pill.active { background: var(--blue-600); border-color: var(--blue-600); color: #fff; }
+  .pill {
+    padding: 10px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 0;
+    border-right: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+    cursor: pointer;
+    color: var(--text-secondary);
+    background: var(--surface);
+    transition: background 0.15s, color 0.15s;
+    min-height: 40px;
+  }
+  .pill:hover { background: var(--gray-50); color: var(--text-primary); }
+  .pill.active { background: var(--blue-50); color: var(--blue-800); }
 
   /* ─── FILTER ROW ─── */
   .filter-row { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
@@ -447,8 +522,11 @@
 
   /* ─── PAYMENT CHECKBOXES ─── */
   .pay-fee-row {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 9px 12px;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     margin-bottom: 7px;
@@ -457,7 +535,13 @@
   }
   .pay-fee-row:hover { border-color: var(--blue-400); background: var(--blue-50); }
   .pay-fee-row input[type=checkbox] { width: 15px; height: 15px; accent-color: var(--blue-600); cursor: pointer; }
-  .pay-fee-label { display: flex; align-items: center; gap: 9px; font-size: 13px; }
+  .pay-fee-label { display: flex; align-items: center; gap: 9px; font-size: 13px; min-width: 0; }
+  .pay-fee-meta { font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+  .pay-fee-amount {
+    width: 120px;
+    text-align: right;
+    padding: 7px 10px;
+  }
 
   /* ─── GRID UTILS ─── */
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -495,6 +579,7 @@
   .login-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
   .login-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
   .login-error { font-size: 12px; color: var(--red-600); margin-bottom: 10px; display: none; }
+  .hidden { display: none !important; }
   .login-error.show { display: block; }
 
   /* ─── CHART BARS ─── */

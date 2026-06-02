@@ -35,10 +35,11 @@ router.get('/by-category', async (req, res) => {
       SELECT 
         fee_type as category,
         COUNT(DISTINCT student_id) as students_with_fee,
-        SUM(CASE WHEN status = 'paid' THEN 1 ELSE 0 END) as paid,
+        SUM(CASE WHEN status IN ('paid', 'overpaid') THEN 1 ELSE 0 END) as paid,
         SUM(CASE WHEN status = 'unpaid' THEN 1 ELSE 0 END) as unpaid,
         SUM(CASE WHEN status = 'partial' THEN 1 ELSE 0 END) as partial,
         SUM(CASE WHEN status = 'exempt' THEN 1 ELSE 0 END) as exempt,
+        SUM(CASE WHEN status = 'overpaid' THEN 1 ELSE 0 END) as overpaid,
         SUM(amount_paid) as total_amount_collected
       FROM payment_status
       GROUP BY fee_type
@@ -57,8 +58,9 @@ router.get('/by-grade', async (req, res) => {
       SELECT 
         s.grade,
         COUNT(DISTINCT s.id) as total_students,
-        SUM(CASE WHEN ps.status = 'paid' THEN 1 ELSE 0 END) as total_paid,
+        SUM(CASE WHEN ps.status IN ('paid', 'overpaid') THEN 1 ELSE 0 END) as total_paid,
         SUM(CASE WHEN ps.status = 'unpaid' THEN 1 ELSE 0 END) as total_unpaid,
+        SUM(CASE WHEN ps.status = 'overpaid' THEN 1 ELSE 0 END) as total_overpaid,
         SUM(ps.amount_paid) as total_amount_collected
       FROM students s
       LEFT JOIN payment_status ps ON s.id = ps.student_id
@@ -79,8 +81,9 @@ router.get('/by-section/:grade', async (req, res) => {
         s.grade,
         s.section,
         COUNT(DISTINCT s.id) as total_students,
-        SUM(CASE WHEN ps.status = 'paid' THEN 1 ELSE 0 END) as total_paid,
+        SUM(CASE WHEN ps.status IN ('paid', 'overpaid') THEN 1 ELSE 0 END) as total_paid,
         SUM(CASE WHEN ps.status = 'unpaid' THEN 1 ELSE 0 END) as total_unpaid,
+        SUM(CASE WHEN ps.status = 'overpaid' THEN 1 ELSE 0 END) as total_overpaid,
         SUM(ps.amount_paid) as total_amount_collected
       FROM students s
       LEFT JOIN payment_status ps ON s.id = ps.student_id

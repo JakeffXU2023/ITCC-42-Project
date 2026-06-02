@@ -40,7 +40,7 @@
             </div>
             <div class="import-template-hint">
               <strong>Expected columns (any order):</strong>
-              Student Name, Parent, SPTA, School Paper, School Org, Sports, Insurance, Graduation (Grades 10 &amp; 12)
+              Last Name, First Name, Grade, Section, Parent, SPTA, School Paper, School Org, Sports, Insurance, Graduation (Grades 10 &amp; 12)
             </div>
           </div>
           <div id="import-step-preview" style="display:none;">
@@ -103,6 +103,10 @@
   }
 
   const SYSTEM_FIELDS = [
+    { key: 'last_name', label: 'Last Name' },
+    { key: 'first_name', label: 'First Name' },
+    { key: 'grade', label: 'Grade' },
+    { key: 'section', label: 'Section' },
     { key: 'parent', label: 'Parents' },
     { key: 'name', label: 'Name of Student' },
     { key: 'spta', label: 'SPTA Membership' },
@@ -115,7 +119,11 @@
 
   function guessMapping(headers) {
     const aliases = {
-      name: ['name', 'student', 'full name', 'student name', 'lastname'],
+      name: ['name', 'student', 'full name', 'student name'],
+      last_name: ['last name', 'lastname', 'surname', 'family name'],
+      first_name: ['first name', 'firstname', 'given name'],
+      grade: ['grade', 'level'],
+      section: ['section', 'sec'],
       parent: ['parent', 'guardian', 'mother', 'father', 'parent name'],
       spta: ['spta', 'pta', 'association'],
       paper: ['paper', 'school paper', 'publication'],
@@ -241,33 +249,47 @@
       overlay.querySelectorAll('.import-map-select').forEach((sel) => {
         mapping[sel.dataset.field] = sel.value;
       });
-      if (!mapping.name) {
-        alert('Please map the Student Name column.');
+      if (!mapping.name && (!mapping.last_name || !mapping.first_name)) {
+        alert('Please map either Student Name or both Last Name and First Name.');
         return;
       }
       const colIndex = (col) => fileColumns.indexOf(col);
       const imported = parsedRows
         .map((row) => {
-          const get = (field) => {
+          const getText = (field) => {
             const col = mapping[field];
-            if (!col) return field === 'name' || field === 'parent' ? '' : 0;
+            if (!col) return '';
             const val = row[colIndex(col)];
-            if (field === 'name' || field === 'parent') return String(val ?? '').trim();
+            return String(val ?? '').trim();
+          };
+          const getNumber = (field) => {
+            const col = mapping[field];
+            if (!col) return 0;
+            const val = row[colIndex(col)];
             const n = parseFloat(String(val).replace(/[^0-9.]/g, ''));
             return isNaN(n) ? 0 : n;
           };
+          const lastName = getText('last_name');
+          const firstName = getText('first_name');
+          const grade = getText('grade');
+          const section = getText('section');
+          const name = getText('name') || [lastName, firstName].filter(Boolean).join(', ');
           return {
-            name: get('name'),
-            parent: get('parent'),
-            spta: get('spta'),
-            paper: get('paper'),
-            org: get('org'),
-            sports: get('sports'),
-            insurance: get('insurance'),
-            graduation: get('graduation'),
+            name,
+            last_name: lastName,
+            first_name: firstName,
+            grade,
+            section,
+            parent: getText('parent'),
+            spta: getNumber('spta'),
+            paper: getNumber('paper'),
+            org: getNumber('org'),
+            sports: getNumber('sports'),
+            insurance: getNumber('insurance'),
+            graduation: getNumber('graduation'),
           };
         })
-        .filter((s) => s.name !== '');
+        .filter((s) => s.name !== '' || (s.last_name && s.first_name));
 
       if (!imported.length) {
         alert('No valid student rows found.');
